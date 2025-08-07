@@ -21,7 +21,7 @@ test_response = client.embeddings.create(
     input=["Hello world!"],
     model=os.getenv("AZURE_EMBEDDING_DEPLOYMENT")
 )
-print("✅ Test embedding successful.")
+print("Test embedding successful.")
 
 chroma_client = chromadb.PersistentClient(path="./chroma_storage")
 collection = chroma_client.get_or_create_collection(name="codebase")
@@ -31,7 +31,7 @@ def chunk_text(text, max_len=500):
 
 def embed(texts):
     if not texts:
-        print("⚠️ No texts found to embed.")
+        print("No texts found to embed.")
         return []
     
     print(f"Embedding {len(texts)} chunks. Example chunk:\n{texts[0][:200]}...\n")
@@ -53,7 +53,7 @@ while True:
     existing_ids.update(results['ids'])
     offset += BATCH_SIZE
 
-print(f"📦 Loaded {len(existing_ids)} existing embedded chunks.")
+print(f"Loaded {len(existing_ids)} existing embedded chunks.")
 
 base_dir = r"C:\Users\souravgupta\OneDrive - Deloitte (O365D)\Documents\Projects\DCAT\Code\p3_tenant_api"
 
@@ -86,10 +86,10 @@ for root, dirs, files in os.walk(base_dir):
                     embeddings=vectors
                 )
 
-print("✅ All new files embedded and stored in ChromaDB.")
+print("All new files embedded and stored in ChromaDB.")
 
 def ask_question(query, top_k=3):
-    print(f"\n🤔 Asking: {query}")
+    print(f"\n Asking: {query}")
     
     query_embedding = client.embeddings.create(
         model=os.getenv("AZURE_EMBEDDING_DEPLOYMENT"),
@@ -120,17 +120,17 @@ def ask_question(query, top_k=3):
 
     return response.choices[0].message.content
 
-print("\n📘 Ask any question about your codebase (type 'exit' to quit):")
+print("\nAsk any question about your codebase (type 'exit' to quit):")
 
 while True:
     user_question = input("\n Your question: ").strip()
     if user_question.lower() in {"exit", "quit"}:
-        print("👋 Goodbye!")
+        print("Goodbye!")
         break
 
     if not user_question:
-        print("⚠️ Please enter a valid question.")
+        print("Please enter a valid question.")
         continue
 
     answer = ask_question(user_question)
-    print(f"\n🤖 Answer:\n{answer}")
+    print(f"\nAnswer:\n{answer}")
